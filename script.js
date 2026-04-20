@@ -1,7 +1,10 @@
 function shortenURL() {
   const longUrl = document.getElementById("urlInput").value.trim();
 
-  if (!longUrl) return;
+  if (!longUrl) {
+    document.getElementById("result").innerText = "Please enter a URL";
+    return;
+  }
 
   fetch("https://cleanuri.com/api/v1/shorten", {
     method: "POST",

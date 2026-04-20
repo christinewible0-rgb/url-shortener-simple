@@ -1,14 +1,20 @@
 function shortenURL() {
-  const longUrl = document.getElementById("urlInput").value;
+  const longUrl = document.getElementById("urlInput").value.trim();
 
-  fetch("https://tinyurl.com/api-create.php?url=" + encodeURIComponent(longUrl))
-    .then(function(response) {
-      return response.text();
+  if (!longUrl) return;
+
+  fetch("https://cleanuri.com/api/v1/shorten", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "url=" + encodeURIComponent(longUrl)
+  })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("result").innerText = data.result_url;
     })
-    .then(function(shortUrl) {
-      document.getElementById("result").innerText = shortUrl;
-    })
-    .catch(function() {
-      document.getElementById("result").innerText = "Something went wrong";
+    .catch(() => {
+      document.getElementById("result").innerText = "Error shortening URL";
     });
 }

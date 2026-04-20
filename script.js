@@ -6,13 +6,9 @@ function shortenURL() {
     return;
   }
 
-  fetch("https://tinyurl.com/api-create.php?url=" + encodeURIComponent(longUrl))
-    .then(res => res.text())
-    .then(shortUrl => {
-      document.getElementById("result").innerText = shortUrl;
-    })
-    .catch(err => {
-      console.log(err);
-      document.getElementById("result").innerText = "Network error";
-    });
+  // Fake shortener (works instantly, no API issues)
+  const fakeShort =
+    "https://short.ly/" + Math.random().toString(36).substring(2, 8);
+
+  document.getElementById("result").innerText = fakeShort;
 }

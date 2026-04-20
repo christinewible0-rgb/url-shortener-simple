@@ -6,18 +6,16 @@ function shortenURL() {
     return;
   }
 
-  fetch("https://cleanuri.com/api/v1/shorten", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: "url=" + encodeURIComponent(longUrl)
-  })
+  fetch("https://is.gd/create.php?format=json&url=" + encodeURIComponent(longUrl))
     .then(res => res.json())
     .then(data => {
-      document.getElementById("result").innerText = data.result_url;
+      if (data.shorturl) {
+        document.getElementById("result").innerText = data.shorturl;
+      } else {
+        document.getElementById("result").innerText = "Failed to shorten URL";
+      }
     })
     .catch(() => {
-      document.getElementById("result").innerText = "Error shortening URL";
+      document.getElementById("result").innerText = "Network error";
     });
 }

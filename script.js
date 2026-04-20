@@ -1,14 +1,15 @@
 function shortenURL() {
   const longUrl = document.getElementById("urlInput").value.trim();
+  const result = document.getElementById("result");
 
   if (!longUrl) {
-    document.getElementById("result").innerText = "Please enter a URL";
+    result.innerText = "Please enter a URL";
     return;
   }
 
-  // Fake shortener (works instantly, no API issues)
-  const fakeShort =
-    "https://short.ly/" + Math.random().toString(36).substring(2, 8);
+  // Simple working demo shortener (no API issues)
+  const shortCode = Math.random().toString(36).substring(2, 8);
+  const shortUrl = "https://short.ly/" + shortCode;
 
-  document.getElementById("result").innerText = fakeShort;
+  result.innerHTML = `<a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
 }

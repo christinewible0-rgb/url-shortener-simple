@@ -6,17 +6,13 @@ function shortenURL() {
     return;
   }
 
-  fetch("https://api.shrtco.de/v2/shorten?url=" + encodeURIComponent(longUrl))
-    .then(res => res.json())
-    .then(data => {
-      if (data.ok) {
-        document.getElementById("result").innerText = data.result.full_short_link;
-      } else {
-        document.getElementById("result").innerText = "Failed to shorten URL";
-      }
+  fetch("https://tinyurl.com/api-create.php?url=" + encodeURIComponent(longUrl))
+    .then(res => res.text())
+    .then(shortUrl => {
+      document.getElementById("result").innerText = shortUrl;
     })
     .catch(err => {
       console.log(err);
-      document.getElementById("result").innerText = "Network error (CORS or blocked request)";
+      document.getElementById("result").innerText = "Network error";
     });
 }

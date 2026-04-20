@@ -7,7 +7,11 @@ function shortenURL() {
   }
 
   fetch("https://is.gd/create.php?format=json&url=" + encodeURIComponent(longUrl))
-    .then(res => res.json())
+    .then(async (res) => {
+      const text = await res.text();   // first read raw response
+      console.log("RAW RESPONSE:", text);
+      return JSON.parse(text);         // then parse manually
+    })
     .then(data => {
       if (data.shorturl) {
         document.getElementById("result").innerText = data.shorturl;
@@ -15,7 +19,8 @@ function shortenURL() {
         document.getElementById("result").innerText = "Failed to shorten URL";
       }
     })
-    .catch(() => {
-      document.getElementById("result").innerText = "Network error";
+    .catch(err => {
+      console.log(err);
+      document.getElementById("result").innerText = "Network or parsing error";
     });
 }

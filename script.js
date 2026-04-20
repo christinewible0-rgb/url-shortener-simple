@@ -1,21 +1,14 @@
-async function shortenURL() {
-  const url = document.getElementById("urlInput").value;
-  const result = document.getElementById("result");
+function shortenURL() {
+  const longUrl = document.getElementById("urlInput").value;
 
-  if (!url) {
-    result.innerHTML = "Please enter a URL";
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`
-    );
-
-    const shortUrl = await response.text();
-
-    result.innerHTML = `<a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
-  } catch (err) {
-    result.innerHTML = "Error occurred";
-  }
+  fetch("https://tinyurl.com/api-create.php?url=" + encodeURIComponent(longUrl))
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(shortUrl) {
+      document.getElementById("result").innerText = shortUrl;
+    })
+    .catch(function() {
+      document.getElementById("result").innerText = "Something went wrong";
+    });
 }

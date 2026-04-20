@@ -1,15 +1,20 @@
 function shortenURL() {
   const longUrl = document.getElementById("urlInput").value.trim();
-  const result = document.getElementById("result");
 
   if (!longUrl) {
-    result.innerText = "Please enter a URL";
+    document.getElementById("result").innerText = "Please enter a URL";
     return;
   }
 
-  // Simple working demo shortener (no API issues)
-  const shortCode = Math.random().toString(36).substring(2, 8);
-  const shortUrl = "https://short.ly/" + shortCode;
-
-  result.innerHTML = `<a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
+  fetch("https://tinyurl.com/api-create.php?url=" + encodeURIComponent(longUrl))
+    .then(res => res.text())
+    .then(shortUrl => {
+      document.getElementById("result").innerHTML =
+        `<a href="${shortUrl}" target="_blank" rel="noopener noreferrer">
+          ${shortUrl}
+        </a>`;
+    })
+    .catch(() => {
+      document.getElementById("result").innerText = "Error generating link";
+    });
 }
